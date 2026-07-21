@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jewel 3D App</title>
-  //fonts.googleapis.com">
-  //fonts.gstatic.com" crossorigin>
-  //fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  >
+  <title>Glass Jewel App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 
   <script type="importmap">
   {
@@ -20,39 +20,43 @@
   <script type="module" src="script.js"></script>
 </head>
 <body>
-  <div class="app-shell">
-    <header class="top-header">
+  <div class="app">
+    <header class="topbar">
       <div class="brand">Glass Jewel UI</div>
-      <div class="header-actions">
+      <div class="top-actions">
         <button class="chip active" data-view="home">Home</button>
         <button class="chip" data-view="media">Media</button>
         <button class="chip" data-view="settings">Settings</button>
       </div>
     </header>
 
-    <main class="layout">
-      <section class="stage-panel">
-        <div class="hero-stage" id="hero3d"></div>
+    <main class="content">
+      <section class="hero-card">
+        <div id="hero3d" class="hero3d"></div>
+        <div class="hero-copy">
+          <h1>Boule dorée</h1>
+          <p>Fenêtre ronde en verre bombée bleu eau, encadrement en métal doré épais.</p>
+        </div>
       </section>
 
-      <aside class="ui-panel">
-        <div class="screen-card">
-          <div class="screen-title" id="screenTitle">Home</div>
-          <div class="screen-text" id="screenText">Navigation active. The 3D object is shown in the left panel.</div>
+      <aside class="ui-card">
+        <div class="panel">
+          <div class="panel-title" id="panelTitle">Home</div>
+          <div class="panel-text" id="panelText">Navigation opérationnelle et design conservé.</div>
         </div>
 
         <div class="nav-grid">
           <button class="nav-btn active" data-view="home">⌂ Home</button>
           <button class="nav-btn" data-view="media">◔ Media</button>
           <button class="nav-btn" data-view="settings">⚙ Settings</button>
-          <button class="nav-btn" id="enterBtn">＋ Action</button>
+          <button class="nav-btn" id="actionBtn">＋ Action</button>
         </div>
 
-        <div class="bottom-bar">
+        <nav class="bottomnav">
           <button class="bottom-btn active" data-view="home"><span class="jewel jewel-xs"></span></button>
           <button class="bottom-btn" data-view="media"><span class="jewel jewel-xs"></span></button>
           <button class="bottom-btn" data-view="settings"><span class="jewel jewel-xs"></span></button>
-        </div>
+        </nav>
       </aside>
     </main>
   </div>
