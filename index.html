@@ -8,27 +8,51 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/RGBELoader.js"></script>
-  <script defer src="script.js"></script>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <script type="module" src="script.js"></script>
 </head>
 <body>
-  <div class="scene">
-    <main class="cover" id="cover">
-      <div class="hero" id="hero3d"></div>
-      <h1>Glass Jewel UI</h1>
-      <p>Objet 3D réel : métal cuivre et verre transparent bleu.</p>
-      <button class="start-btn" data-route="home">Enter App</button>
-    </main>
+  <div class="app">
+    <section class="hero-panel">
+      <div id="hero3d" class="hero3d"></div>
 
-    <main class="phone hidden" id="phone">
-      <section class="screen" id="screen"></section>
+      <div class="hero-copy">
+        <h1>Glass Jewel UI</h1>
+        <p>Objet 3D réel avec métal cuivre, verre bleu et HDRI.</p>
+        <button class="start-btn" id="enterBtn">Enter App</button>
+      </div>
+    </section>
+
+    <section class="phone-shell hidden" id="phoneShell">
+      <div class="topbar">
+        <button class="icon-btn active">⌂</button>
+        <button class="icon-btn">⌕</button>
+        <button class="icon-btn">◔</button>
+        <button class="icon-btn">◌</button>
+      </div>
+
+      <div class="screen" id="screen">
+        <div class="card">
+          <div class="card-title">Home</div>
+          <div class="card-text">Navigation et interface conservées.</div>
+        </div>
+      </div>
+
       <nav class="bottomnav">
-        <button class="nav-item active" data-route="home"><span class="jewel jewel-xs"></span></button>
-        <button class="nav-item" data-route="media"><span class="jewel jewel-xs"></span></button>
-        <button class="nav-item" data-route="settings"><span class="jewel jewel-xs"></span></button>
+        <button class="nav-item active"><span class="jewel jewel-xs"></span></button>
+        <button class="nav-item"><span class="jewel jewel-xs"></span></button>
+        <button class="nav-item"><span class="jewel jewel-xs"></span></button>
       </nav>
-    </main>
+    </section>
   </div>
 </body>
 </html>
