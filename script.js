@@ -52,17 +52,17 @@ function createScene(el){
   const group = new THREE.Group();
   scene.add(group);
 
-  scene.add(new THREE.AmbientLight(0xffffff, 2.1));
+  scene.add(new THREE.AmbientLight(0xffffff, 2.2));
 
-  const key = new THREE.DirectionalLight(0xffffff, 4.2);
+  const key = new THREE.DirectionalLight(0xffffff, 4.5);
   key.position.set(5, 6, 7);
   scene.add(key);
 
-  const fill = new THREE.DirectionalLight(0xffedda, 2.6);
+  const fill = new THREE.DirectionalLight(0xffedda, 2.8);
   fill.position.set(-6, 2, 4);
   scene.add(fill);
 
-  const sky = new THREE.DirectionalLight(0xcfe8ff, 1.8);
+  const sky = new THREE.DirectionalLight(0xcfe8ff, 2.0);
   sky.position.set(0, 10, 2);
   scene.add(sky);
 
@@ -72,11 +72,11 @@ function createScene(el){
     roughness: 0.08,
     clearcoat: 1,
     clearcoatRoughness: 0.03,
-    envMapIntensity: 2
+    envMapIntensity: 2.2
   });
 
   const glass = new THREE.MeshPhysicalMaterial({
-    color: 0x8bbbe8,
+    color: 0x8cc5f0,
     metalness: 0,
     roughness: 0.02,
     transmission: 1,
@@ -84,7 +84,7 @@ function createScene(el){
     ior: 1.42,
     transparent: true,
     opacity: 1,
-    envMapIntensity: 2.2
+    envMapIntensity: 2.4
   });
 
   const body = new THREE.Mesh(new THREE.SphereGeometry(1.7, 96, 96), gold);
