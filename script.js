@@ -1,128 +1,126 @@
-const cover = document.getElementById('cover');
-const phone = document.getElementById('phone');
-const screen = document.getElementById('screen');
+import * as THREE from 'three';
+import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 
-function enterApp() {
-  cover.style.display = 'none';
-  phone.classList.remove('hidden');
-  renderHome();
-}
+const hero = document.getElementById('hero3d');
+const enterBtn = document.getElementById('enterBtn');
+const phoneShell = document.getElementById('phoneShell');
 
-function renderHome() {
-  screen.innerHTML = `
-    <div style="padding:18px;border-radius:20px;background:rgba(255,255,255,.35);border:1px solid rgba(255,255,255,.45)">
-      <h2 style="margin:0 0 10px">Home</h2>
-      <p style="margin:0;color:#5f6a7a">Interface prête avec scène 3D et HDRI.</p>
-    </div>
-  `;
-}
-
-document.addEventListener('click', e => {
-  if (e.target.matches('.start-btn')) enterApp();
+enterBtn.addEventListener('click', () => {
+  phoneShell.classList.remove('hidden');
+  enterBtn.textContent = 'Entered';
+  enterBtn.disabled = true;
 });
 
-function makeJewel3D(el) {
+function createScene(el) {
   const scene = new THREE.Scene();
-  const w = el.clientWidth || 520;
-  const h = el.clientHeight || 520;
+  const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
+  camera.position.set(0, 0, 5);
 
-  const camera = new THREE.PerspectiveCamera(30, w / h, 0.1, 100);
-  camera.position.z = 4.2;
-
-  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-  renderer.setSize(w, h);
+  const renderer = new THREE.WebGLRenderer({
+    antialias: true,
+    alpha: true
+  });
+  renderer.setSize(el.clientWidth, el.clientHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.35;
+  renderer.toneMappingExposure = 1.2;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   el.innerHTML = '';
   el.appendChild(renderer.domElement);
 
-  scene.add(new THREE.AmbientLight(0xffffff, 1.0));
-
-  const key = new THREE.DirectionalLight(0xffffff, 2.8);
-  key.position.set(3, 4, 5);
-  scene.add(key);
-
-  const fill = new THREE.DirectionalLight(0xffccaa, 1.2);
-  fill.position.set(-4, -1, 3);
-  scene.add(fill);
-
   const group = new THREE.Group();
   scene.add(group);
 
-  const metalMaterial = new THREE.MeshPhysicalMaterial({
+  const metalMat = new THREE.MeshPhysicalMaterial({
     color: 0xc98963,
     metalness: 1,
     roughness: 0.12,
     clearcoat: 1,
-    clearcoatRoughness: 0.04,
-    sheen: 0.2,
-    sheenColor: 0xffe3d1
+    clearcoatRoughness: 0.04
   });
 
-  const glassMaterial = new THREE.MeshPhysicalMaterial({
+  const glassMat = new THREE.MeshPhysicalMaterial({
     color: 0x8fbfe8,
     metalness: 0,
     roughness: 0.03,
     transmission: 1,
-    thickness: 0.8,
+    thickness: 0.85,
     ior: 1.45,
     transparent: true,
-    opacity: 1,
-    clearcoat: 1,
-    clearcoatRoughness: 0
+    opacity: 1
   });
 
-  const torus1 = new THREE.Mesh(new THREE.TorusGeometry(1.45, 0.28, 80, 240), metalMaterial);
-  group.add(torus1);
+  const torusMain = new THREE.Mesh(
+    new THREE.TorusGeometry(1.38, 0.30, 96, 240),
+    metalMat
+  );
+  group.add(torusMain);
 
-  const torus2 = new THREE.Mesh(new THREE.TorusGeometry(1.32, 0.12, 72, 200), metalMaterial);
-  torus2.rotation.x = 0.32;
-  torus2.rotation.y = 0.14;
-  group.add(torus2);
+  const torusInner = new THREE.Mesh(
+    new THREE.TorusGeometry(1.20, 0.11, 64, 180),
+    metalMat
+  );
+  torusInner.rotation.z = 0.12;
+  torusInner.rotation.x = 0.3;
+  group.add(torusInner);
 
-  const torus3 = new THREE.Mesh(new THREE.TorusGeometry(1.18, 0.08, 72, 160), metalMaterial);
-  torus3.rotation.x = -0.18;
-  torus3.rotation.z = 0.42;
-  group.add(torus3);
-
-  const core = new THREE.Mesh(new THREE.SphereGeometry(1.08, 96, 96), glassMaterial);
+  const core = new THREE.Mesh(
+    new THREE.SphereGeometry(1.02, 96, 96),
+    glassMat
+  );
   group.add(core);
 
-  const shell = new THREE.Mesh(
-    new THREE.SphereGeometry(1.21, 64, 64),
-    new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.04 })
+  const faintShell = new THREE.Mesh(
+    new THREE.SphereGeometry(1.16, 64, 64),
+    new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.03
+    })
   );
-  group.add(shell);
+  group.add(faintShell);
+
+  const ambient = new THREE.AmbientLight(0xffffff, 1.0);
+  scene.add(ambient);
+
+  const key = new THREE.DirectionalLight(0xffffff, 2.6);
+  key.position.set(3, 4, 5);
+  scene.add(key);
+
+  const rim = new THREE.DirectionalLight(0xffd0b0, 1.4);
+  rim.position.set(-4, 1, 2);
+  scene.add(rim);
 
   const pmremGenerator = new THREE.PMREMGenerator(renderer);
   pmremGenerator.compileEquirectangularShader();
 
-  new THREE.RGBELoader()
+  new RGBELoader()
     .setDataType(THREE.HalfFloatType)
     .load('assets/hdr/studio.hdr', (texture) => {
       const envMap = pmremGenerator.fromEquirectangular(texture).texture;
       scene.environment = envMap;
-      scene.background = envMap;
+      scene.background = null;
       texture.dispose();
       pmremGenerator.dispose();
     });
 
-  group.rotation.z = -0.15;
-  group.rotation.x = 0.1;
+  group.rotation.x = 0.12;
+  group.rotation.z = -0.16;
 
   function animate() {
     group.rotation.y += 0.006;
-    group.rotation.x = 0.14 + Math.sin(Date.now() * 0.001) * 0.04;
-    group.rotation.z = -0.16 + Math.cos(Date.now() * 0.001) * 0.03;
+    group.rotation.x = 0.12 + Math.sin(Date.now() * 0.001) * 0.03;
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
   }
 
   animate();
+
+  window.addEventListener('resize', () => {
+    renderer.setSize(el.clientWidth, el.clientHeight);
+    camera.aspect = el.clientWidth / el.clientHeight;
+    camera.updateProjectionMatrix();
+  });
 }
 
-window.addEventListener('load', () => {
-  makeJewel3D(document.getElementById('hero3d'));
-});
+createScene(hero);
