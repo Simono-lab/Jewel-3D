@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jewel 3D Scene</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/RGBELoader.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <div class="scene">
+    <main class="cover" id="cover">
+      <div class="hero" id="hero3d"></div>
+      <h1>Glass Jewel UI</h1>
+      <p>Objet 3D réel : métal cuivre et verre transparent bleu.</p>
+      <button class="start-btn" data-route="home">Enter App</button>
+    </main>
+
+    <main class="phone hidden" id="phone">
+      <section class="screen" id="screen"></section>
+      <nav class="bottomnav">
+        <button class="nav-item active" data-route="home"><span class="jewel jewel-xs"></span></button>
+        <button class="nav-item" data-route="media"><span class="jewel jewel-xs"></span></button>
+        <button class="nav-item" data-route="settings"><span class="jewel jewel-xs"></span></button>
+      </nav>
+    </main>
+  </div>
+</body>
+</html>
